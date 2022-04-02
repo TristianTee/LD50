@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Assets/Sounds/Main theme.wav" type="AudioStream" id=1]
 [ext_resource path="res://Assets/font.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://Assets/Title.png" type="Texture" id=3]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.137255, 0.901961, 0.156863, 1 )
@@ -26,6 +27,29 @@ default_font = SubResource( 2 )
 Button/colors/font_color = Color( 0, 0, 0, 1 )
 Button/fonts/font = null
 Button/styles/normal = SubResource( 1 )
+
+[sub_resource type="Gradient" id=4]
+colors = PoolColorArray( 0.137255, 0.901961, 0.156863, 1, 1, 1, 1, 1 )
+
+[sub_resource type="GradientTexture" id=5]
+gradient = SubResource( 4 )
+
+[sub_resource type="Curve" id=6]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=7]
+curve = SubResource( 6 )
+
+[sub_resource type="ParticlesMaterial" id=8]
+lifetime_randomness = 1.0
+trail_size_modifier = SubResource( 7 )
+trail_color_modifier = SubResource( 5 )
+emission_shape = 2
+emission_box_extents = Vector3( 100, 100, 100 )
+flag_disable_z = true
+gravity = Vector3( 0, 0, 0 )
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
 
 [node name="Main" type="Node2D"]
 
@@ -56,3 +80,13 @@ margin_right = 587.0
 margin_bottom = 510.0
 theme = SubResource( 3 )
 text = "Settings"
+
+[node name="Title" type="Sprite" parent="."]
+position = Vector2( 500, 185 )
+scale = Vector2( 2, 2 )
+texture = ExtResource( 3 )
+
+[node name="Particles2D" type="Particles2D" parent="."]
+position = Vector2( 516, 301 )
+scale = Vector2( 5, 3 )
+process_material = SubResource( 8 )
