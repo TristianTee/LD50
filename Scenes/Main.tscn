@@ -1,0 +1,58 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Assets/Sounds/Main theme.wav" type="AudioStream" id=1]
+[ext_resource path="res://Assets/font.ttf" type="DynamicFontData" id=2]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.137255, 0.901961, 0.156863, 1 )
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color( 0, 0, 0, 1 )
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+corner_detail = 1
+
+[sub_resource type="DynamicFont" id=2]
+size = 40
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 2 )
+
+[sub_resource type="Theme" id=3]
+default_font = SubResource( 2 )
+Button/colors/font_color = Color( 0, 0, 0, 1 )
+Button/fonts/font = null
+Button/styles/normal = SubResource( 1 )
+
+[node name="Main" type="Node2D"]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 1 )
+volume_db = -15.0
+autoplay = true
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_top = 1.0
+margin_right = 1024.0
+margin_bottom = 601.0
+color = Color( 0.0980392, 0.0941176, 0.0941176, 1 )
+
+[node name="Begin" type="Button" parent="."]
+margin_left = 462.0
+margin_top = 375.0
+margin_right = 562.0
+margin_bottom = 435.0
+theme = SubResource( 3 )
+text = "BEGIN"
+
+[node name="Settings" type="Button" parent="."]
+visible = false
+margin_left = 437.0
+margin_top = 450.0
+margin_right = 587.0
+margin_bottom = 510.0
+theme = SubResource( 3 )
+text = "Settings"
