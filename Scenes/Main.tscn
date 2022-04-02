@@ -1,8 +1,11 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://Assets/Sounds/Main theme.wav" type="AudioStream" id=1]
 [ext_resource path="res://Assets/font.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://Assets/Title.png" type="Texture" id=3]
+[ext_resource path="res://Scenes/Main.gd" type="Script" id=4]
+[ext_resource path="res://Scenes/MuteButton.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Assets/x.png" type="Texture" id=6]
 
 [sub_resource type="Gradient" id=4]
 colors = PoolColorArray( 0.137255, 0.901961, 0.156863, 1, 1, 1, 1, 1 )
@@ -17,15 +20,16 @@ _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
 curve = SubResource( 6 )
 
 [sub_resource type="ParticlesMaterial" id=8]
-lifetime_randomness = 1.0
 trail_size_modifier = SubResource( 7 )
 trail_color_modifier = SubResource( 5 )
 emission_shape = 2
-emission_box_extents = Vector3( 100, 100, 100 )
+emission_box_extents = Vector3( 100, 100, 0 )
 flag_disable_z = true
 gravity = Vector3( 0, 0, 0 )
-orbit_velocity = 0.0
+orbit_velocity = 0.01
 orbit_velocity_random = 0.0
+radial_accel = 15.69
+scale = 0.1
 color = Color( 0.137255, 0.901961, 0.156863, 1 )
 hue_variation = 1.0
 hue_variation_random = 1.0
@@ -54,12 +58,18 @@ Button/colors/font_color = Color( 0, 0, 0, 1 )
 Button/fonts/font = null
 Button/styles/normal = SubResource( 1 )
 
+[sub_resource type="InputEventAction" id=9]
+action = "ui_accept"
+
+[sub_resource type="ShortCut" id=10]
+shortcut = SubResource( 9 )
+
 [node name="Main" type="Node2D"]
+script = ExtResource( 4 )
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 1 )
 volume_db = -15.0
-autoplay = true
 
 [node name="ColorRect" type="ColorRect" parent="."]
 margin_top = 1.0
@@ -68,9 +78,11 @@ margin_bottom = 601.0
 color = Color( 0.0980392, 0.0941176, 0.0941176, 1 )
 
 [node name="Particles2D" type="Particles2D" parent="."]
-position = Vector2( 516, 301 )
+position = Vector2( 512, 300 )
 scale = Vector2( 5, 3 )
+amount = 20
 process_material = SubResource( 8 )
+texture = ExtResource( 6 )
 
 [node name="Begin" type="Button" parent="."]
 margin_left = 462.0
@@ -78,9 +90,19 @@ margin_top = 375.0
 margin_right = 562.0
 margin_bottom = 435.0
 theme = SubResource( 3 )
+action_mode = 0
+shortcut = SubResource( 10 )
 text = "BEGIN"
 
 [node name="Title" type="Sprite" parent="."]
 position = Vector2( 500, 185 )
 scale = Vector2( 2, 2 )
 texture = ExtResource( 3 )
+
+[node name="MuteButton" parent="." instance=ExtResource( 5 )]
+margin_left = 20.0
+margin_top = 10.0
+margin_right = 20.0
+margin_bottom = 10.0
+
+[connection signal="pressed" from="Begin" to="." method="_on_Begin" flags=6]

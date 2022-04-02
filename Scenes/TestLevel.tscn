@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Assets/TileMaps/PlatformBlack.tres" type="TileSet" id=1]
 [ext_resource path="res://Characters/4.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/MuteButton.tscn" type="PackedScene" id=3]
 
 [node name="TestLevel" type="Node2D"]
 
@@ -17,3 +18,9 @@ tile_data = PoolIntArray( -65538, 0, 0, -65537, 2, 0, -131072, 0, 0, -131071, 2,
 
 [node name="4" parent="." instance=ExtResource( 2 )]
 position = Vector2( 111, 508 )
+
+[node name="MuteButton" parent="." instance=ExtResource( 3 )]
+margin_left = 20.0
+margin_top = 10.0
+margin_right = 20.0
+margin_bottom = 10.0
