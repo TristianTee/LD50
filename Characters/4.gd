@@ -33,7 +33,7 @@ func bounce() -> void:
 	canDoubleJump = true
 
 func _physics_process(delta: float) -> void:
-	var attempting_jump :=  velocity.y >= 0.0 and Input.is_action_just_pressed("ui_accept")
+	var attempting_jump :=  velocity.y >= 0.0 and Input.is_action_just_pressed("up")
 	var floored := is_on_floor()
 	
 	if floored || attempting_jump:
@@ -48,7 +48,7 @@ func _physics_process(delta: float) -> void:
 			$AnimatedSprite.play("idle")
 		canDoubleJump = floored
 
-	var x_strength = (Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left"))
+	var x_strength = (Input.get_action_strength("right") - Input.get_action_strength("left"))
 	
 	if int(x_strength) == 0 and not slippery:
 		velocity.x = velocity.x / 1.4 

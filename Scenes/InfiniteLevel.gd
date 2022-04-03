@@ -7,23 +7,17 @@ var nextGeneration := 800.00
 func _ready() -> void:
 	generate_area()
 	$GenerationTimer.start()
-	if not Settings.muted:
-		$Alarm.play()
 	_on_start()
 
 func _process(_delta: float) -> void:
 	if Settings.muted:
-		if $Alarm.playing or $Music.playing:
-			$Alarm.playing = false 
-			$Music.playing = false
+		if $Music.playing:
+			$Music.playing = false 
 	else:
-		if not $Alarm.playing and not $Music.playing:
+		if not $Music.playing:
 			$Music.play()
 
 func _on_start() -> void:
-	if not Settings.muted:
-		$Music.play()
-	$Alarm.playing = false
 	$GOO.start()
 	$"4".call('timer_start')
 
