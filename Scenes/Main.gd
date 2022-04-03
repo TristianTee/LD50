@@ -11,5 +11,5 @@ func _process(delta: float) -> void:
 	if not Settings.muted && not $AudioStreamPlayer.playing:
 		$AudioStreamPlayer.play()
 
-func _on_Begin() -> void:
-	get_tree().change_scene_to(load("res://Scenes/TestLevel.tscn"))
+func _on_Begin_pressed() -> void:
+		get_tree().change_scene_to(load("res://Scenes/InfiniteLevel.tscn"))

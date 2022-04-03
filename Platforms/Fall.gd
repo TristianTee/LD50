@@ -3,6 +3,7 @@ extends KinematicBody2D
 export var time = 1.0
 export var gravity = 700.0
 export var speed = Vector2(0.0,0.0)
+export var size := 120
 
 var falling := false
 var velocity = Vector2.ZERO
@@ -21,3 +22,7 @@ func _on_Area2D_body_entered(body: Node) -> void:
 
 func _on_Timer_timeout() -> void:
 	falling = true
+
+func die() -> void:
+	self.queue_free()
+

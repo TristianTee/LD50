@@ -34,35 +34,38 @@ color = Color( 0.137255, 0.901961, 0.156863, 1 )
 hue_variation = 1.0
 hue_variation_random = 1.0
 
-[sub_resource type="StyleBoxFlat" id=1]
-bg_color = Color( 0.137255, 0.901961, 0.156863, 1 )
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color( 0, 0, 0, 1 )
+[sub_resource type="DynamicFont" id=11]
+size = 55
+extra_spacing_top = 10
+extra_spacing_bottom = 5
+font_data = ExtResource( 2 )
+
+[sub_resource type="StyleBoxFlat" id=12]
+bg_color = Color( 0, 0, 0, 1 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0.137255, 0.901961, 0.156863, 1 )
 corner_radius_top_left = 10
 corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 corner_detail = 1
 
-[sub_resource type="DynamicFont" id=2]
-size = 40
-outline_color = Color( 0, 0, 0, 1 )
-font_data = ExtResource( 2 )
+[sub_resource type="Theme" id=13]
+Button/fonts/font = SubResource( 11 )
+Button/styles/disabled = SubResource( 12 )
+Button/styles/focus = SubResource( 12 )
+Button/styles/hover = SubResource( 12 )
+Button/styles/normal = SubResource( 12 )
+Button/styles/pressed = SubResource( 12 )
 
-[sub_resource type="Theme" id=3]
-default_font = SubResource( 2 )
-Button/colors/font_color = Color( 0, 0, 0, 1 )
-Button/fonts/font = null
-Button/styles/normal = SubResource( 1 )
-
-[sub_resource type="InputEventAction" id=9]
+[sub_resource type="InputEventAction" id=14]
 action = "ui_accept"
 
-[sub_resource type="ShortCut" id=10]
-shortcut = SubResource( 9 )
+[sub_resource type="ShortCut" id=15]
+shortcut = SubResource( 14 )
 
 [node name="Main" type="Node2D"]
 script = ExtResource( 4 )
@@ -84,16 +87,6 @@ amount = 20
 process_material = SubResource( 8 )
 texture = ExtResource( 6 )
 
-[node name="Begin" type="Button" parent="."]
-margin_left = 462.0
-margin_top = 375.0
-margin_right = 562.0
-margin_bottom = 435.0
-theme = SubResource( 3 )
-action_mode = 0
-shortcut = SubResource( 10 )
-text = "BEGIN"
-
 [node name="Title" type="Sprite" parent="."]
 position = Vector2( 500, 185 )
 scale = Vector2( 2, 2 )
@@ -105,4 +98,14 @@ margin_top = 10.0
 margin_right = 20.0
 margin_bottom = 10.0
 
-[connection signal="pressed" from="Begin" to="." method="_on_Begin" flags=6]
+[node name="Begin" type="Button" parent="."]
+margin_left = 407.0
+margin_top = 400.0
+margin_right = 622.0
+margin_bottom = 450.0
+theme = SubResource( 13 )
+shortcut_in_tooltip = false
+shortcut = SubResource( 15 )
+text = "Begin"
+
+[connection signal="pressed" from="Begin" to="." method="_on_Begin_pressed"]

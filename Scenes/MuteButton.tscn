@@ -35,6 +35,7 @@ script = ExtResource( 1 )
 margin_right = 80.0
 margin_bottom = 40.0
 theme = SubResource( 2 )
+shortcut_in_tooltip = false
 text = "MUTE"
 align = 1
 

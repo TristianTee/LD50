@@ -6,11 +6,11 @@ func _physics_process(delta: float) -> void:
 	position.y = position.y + (speed * delta)
 
 func start() -> void: 
-	speed = -10
+	speed = -20
 	$Timer.start()
 
 func _on_Timer_timeout() -> void:
-	speed -= 10
+	speed -= 20
 
 func _on_GOO_body_entered(body: Node) -> void:
 	body.call('entered_goo')

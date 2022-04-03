@@ -1,0 +1,171 @@
+[gd_scene load_steps=16 format=2]
+
+[ext_resource path="res://Assets/font.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://Assets/backest.png" type="Texture" id=2]
+[ext_resource path="res://Scenes/Score.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/Death.gd" type="Script" id=4]
+
+[sub_resource type="Shader" id=2]
+code = "shader_type canvas_item;
+
+uniform vec4 goo_color: hint_color;
+
+float rand(vec2 coordinates) {
+	return fract(sin(dot(coordinates, vec2(11.1111, 77.7777))) * 44444.44444444);
+}
+
+float noise(vec2 coordinates) {
+	vec2 floored = floor(coordinates);
+	vec2 fracted = fract(coordinates);
+	
+	float a = rand(floored);
+	float b = rand(floored + vec2(1.0, 0.0));
+	float c = rand(floored + vec2(0.0, 1.0));
+	float d = rand(floored + vec2(1.0, 1.0));
+	
+	vec2 cubic = fracted * fracted * (3.0 - 2.0 * fracted);
+	
+	return mix(a,b,cubic.x) + (c-a)*cubic.y * (1.0 - cubic.x) + (d-b)*cubic.x * cubic.y;
+}
+
+void fragment(){
+	
+	vec2 noiseA = UV * 6.0;
+	vec2 noiseB = UV * 6.0 + 5.0;
+	
+	vec2 motionA = vec2(TIME * 0.2, TIME * -0.3);
+	vec2 motionB = vec2(TIME * 0.05, TIME * 0.25);
+	
+	vec2 distortionA = vec2(noise(noiseA + motionA), noise(noiseA + motionA)) - vec2(0.5);
+	vec2 distortionB = vec2(noise(noiseB + motionB), noise(noiseB + motionB)) - vec2(0.5);
+	
+	vec2 distortion = (distortionA + distortionB) / 60.0;
+	
+	vec4 color = mix(textureLod(SCREEN_TEXTURE, SCREEN_UV + distortion, 0.0), goo_color, 0.4);
+	color.rgb = mix(vec3(0.5), color.rgb, 1.4);
+	
+	float nearTop = 1.0 - clamp((UV.y + distortion.y) / 0.08, 0.0, 1.0);
+	
+	color = mix(color, vec4(1.0), nearTop);
+	
+	if(nearTop > 0.7){
+		if(nearTop < 0.8){
+			color.a = (0.8 - nearTop);
+		} else {
+			color.a = 0.0;
+		}
+	}
+	
+	COLOR = color;
+}"
+
+[sub_resource type="ShaderMaterial" id=4]
+shader = SubResource( 2 )
+shader_param/goo_color = Color( 0.137255, 0.901961, 0.156863, 1 )
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0, 0, 0, 1 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0.137255, 0.901961, 0.156863, 1 )
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+corner_detail = 1
+
+[sub_resource type="Theme" id=5]
+Panel/styles/panel = SubResource( 1 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 50
+font_data = ExtResource( 1 )
+
+[sub_resource type="Theme" id=6]
+Label/fonts/font = SubResource( 3 )
+
+[sub_resource type="DynamicFont" id=12]
+size = 55
+extra_spacing_top = 10
+extra_spacing_bottom = 5
+font_data = ExtResource( 1 )
+
+[sub_resource type="StyleBoxFlat" id=13]
+bg_color = Color( 0, 0, 0, 1 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0.137255, 0.901961, 0.156863, 1 )
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+corner_detail = 1
+
+[sub_resource type="Theme" id=9]
+Button/fonts/font = SubResource( 12 )
+Button/styles/disabled = SubResource( 13 )
+Button/styles/focus = SubResource( 13 )
+Button/styles/hover = SubResource( 13 )
+Button/styles/normal = SubResource( 13 )
+Button/styles/pressed = SubResource( 13 )
+
+[sub_resource type="InputEventAction" id=14]
+action = "ui_accept"
+
+[sub_resource type="ShortCut" id=11]
+shortcut = SubResource( 14 )
+
+[node name="Death" type="Node2D"]
+script = ExtResource( 4 )
+
+[node name="Backest" type="Sprite" parent="."]
+position = Vector2( 545, 633 )
+texture = ExtResource( 2 )
+offset = Vector2( 0, -321 )
+
+[node name="GooSprite" type="Sprite" parent="."]
+material = SubResource( 4 )
+position = Vector2( 512, 310 )
+scale = Vector2( 0.532292, 0.551852 )
+texture = ExtResource( 2 )
+
+[node name="Score" parent="." instance=ExtResource( 3 )]
+margin_left = 397.0
+margin_top = 300.0
+margin_right = 397.0
+margin_bottom = 300.0
+
+[node name="Panel" type="Panel" parent="."]
+margin_left = 397.0
+margin_top = 200.0
+margin_right = 627.0
+margin_bottom = 260.0
+theme = SubResource( 5 )
+
+[node name="Label" type="Label" parent="Panel"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -92.0
+margin_top = -22.0
+margin_right = 92.0
+margin_bottom = 29.0
+theme = SubResource( 6 )
+text = "GAME OVER"
+
+[node name="Button" type="Button" parent="."]
+margin_left = 407.0
+margin_top = 400.0
+margin_right = 622.0
+margin_bottom = 450.0
+theme = SubResource( 9 )
+shortcut_in_tooltip = false
+shortcut = SubResource( 11 )
+text = "RETRY"
+
+[connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
