@@ -34,7 +34,7 @@ func generate_area() -> void:
 	var sinceLastPlaced := 0
 	var leftBound = 130 if(nextGeneration > -4000) else 0
 	var rightBound = 800 if(nextGeneration > -4000) else 1024
-	var heightBias = (maxHeight / 1000) 
+	var heightBias = (maxHeight / -1000) 
 	var bias := 0
 	while i <= optionals:
 		

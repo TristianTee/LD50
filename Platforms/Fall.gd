@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-export var time = 1.0
+export var time = 0.5
 export var gravity = 700.0
 export var speed = Vector2(0.0,0.0)
 export var size := 120
@@ -17,10 +17,12 @@ func _physics_process(delta: float) -> void:
 	velocity = move_and_slide(velocity)
 
 func _on_Area2D_body_entered(body: Node) -> void:
-	$Timer.start()
-	$Area2D.monitoring = false
+	if not falling:
+		$Timer.start()
+		$Area2D.monitoring = false
 
 func _on_Timer_timeout() -> void:
+	$AudioStreamPlayer2D.play()
 	falling = true
 
 func die() -> void:
