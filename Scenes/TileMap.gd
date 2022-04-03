@@ -1,4 +1,5 @@
 extends TileMap
 
+
 func die():
-	pass
+	self.queue_free()

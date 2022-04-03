@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-export var speed := Vector2(600.0, 600.0)
+export var speed := Vector2(400.0, 600.0)
 export var gravity := 700.0
 export var slipperiness := 12
 
@@ -50,20 +50,27 @@ func _physics_process(delta: float) -> void:
 
 	var x_strength = (Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left"))
 	
-	if gooooood:
-		x_strength = x_strength / 2.0
-	
-	if slippery:
-		velocity.x += speed.x * x_strength / slipperiness
+	if int(x_strength) == 0 and not slippery:
+		velocity.x = velocity.x / 1.4 
+	else:
+		x_strength = x_strength * delta * speed.x
+		if gooooood:
+			x_strength = x_strength / 2.0
+		
+		velocity.x += x_strength / slipperiness if slippery else x_strength
+		
 		if velocity.x > speed.x:
 			velocity.x = speed.x
 		if velocity.x < -speed.x:
 			velocity.x = -speed.x
-	else :
-		velocity.x = speed.x * x_strength
 	
 	velocity.y += gravity * delta
 	
+	var currentX = position.x
+	if currentX < 0 && x_strength < 0:
+		position.x = 1029
+	if currentX > 1024 && x_strength > 0:
+		position.x = -5
 	
 	velocity = move_and_slide(velocity, up)
 
